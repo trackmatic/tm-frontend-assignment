@@ -1,64 +1,18 @@
 import { Fragment, useEffect, useState } from "react";
+import uniqid from "uniqid";
+import { statuses } from "./config";
+import RouteModal from "./RouteModal";
 import {
   Add,
   Container,
   Edit,
-  FormFieldContainer,
   ModalBack,
-  ModalContainer,
   OverflowContainer,
   RowFlex,
   TableContainer,
   TableHeading,
   TablesContainer,
 } from "./styles";
-import Select from "react-select";
-import uniqid from "uniqid";
-
-const statuses = [
-  { label: "Requested", value: "Requested", color: "orange" },
-  { label: "Scheduled", value: "Scheduled", color: "steelblue" },
-  { label: "Active", value: "Active", color: "turquoise" },
-  { label: "Completed", value: "Completed", color: "purple" },
-  { label: "Closed", value: "Closed", color: "green" },
-  { label: "Cancelled", value: "Cancelled", color: "maroon" },
-];
-
-const RouteModal = ({ route, onSubmit }) => {
-  const [data, setData] = useState(route);
-  const isAdding = !route.id;
-  const onChange = (name) => (e) =>
-    setData((prev) => ({ ...prev, [name]: e.target.value }));
-  return (
-    <ModalContainer>
-      <h3>{isAdding ? "Add" : "Edit"} Route</h3>
-      <FormFieldContainer>
-        <div>Reference *</div>
-        <input value={data.reference} onChange={onChange("reference")} />
-      </FormFieldContainer>
-      {!isAdding && (
-        <FormFieldContainer>
-          <div>Status *</div>
-          <Select
-            value={statuses.find((s) => s.value === data.status)}
-            options={statuses}
-            onChange={(e) => {
-              onChange("status")({ target: { value: e.value } });
-            }}
-          />
-        </FormFieldContainer>
-      )}
-      <button
-        disabled={!data.reference || !data.status}
-        onClick={() => {
-          onSubmit(data);
-        }}
-      >
-        {isAdding ? "Add" : "Edit"}
-      </button>
-    </ModalContainer>
-  );
-};
 
 function App() {
   const [routes, setRoutes] = useState(
